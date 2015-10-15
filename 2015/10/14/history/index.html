@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: html | var Person = {&quot;木圭&quot;}</title>
+  <title>history | var Person = {&quot;木圭&quot;}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="长江后浪推前浪，前浪死在沙滩上，fighting">
-<meta property="og:type" content="website">
-<meta property="og:title" content="var Person = {"木圭"}">
-<meta property="og:url" content="http://guihua.github.io/tags/html/index.html">
+  <meta name="description" content="我们可以通过history对象来访问浏览器的浏览历史，这个对象是一个JavaScript全局对象（window.history）。
+history API
+back()back()函数用于移动浏览历史到前一条URL，调用back()函数和点击浏览器的“后退”按钮的效果相同window.history.back();
+forward()forward()函数用于移动浏览历史到下一条URL，调用for">
+<meta property="og:type" content="article">
+<meta property="og:title" content="history">
+<meta property="og:url" content="http://guihua.github.io/2015/10/14/history/index.html">
 <meta property="og:site_name" content="var Person = {"木圭"}">
-<meta property="og:description" content="长江后浪推前浪，前浪死在沙滩上，fighting">
+<meta property="og:description" content="我们可以通过history对象来访问浏览器的浏览历史，这个对象是一个JavaScript全局对象（window.history）。
+history API
+back()back()函数用于移动浏览历史到前一条URL，调用back()函数和点击浏览器的“后退”按钮的效果相同window.history.back();
+forward()forward()函数用于移动浏览历史到下一条URL，调用for">
+<meta property="og:updated_time" content="2015-10-15T01:37:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="var Person = {"木圭"}">
-<meta name="twitter:description" content="长江后浪推前浪，前浪死在沙滩上，fighting">
+<meta name="twitter:title" content="history">
+<meta name="twitter:description" content="我们可以通过history对象来访问浏览器的浏览历史，这个对象是一个JavaScript全局对象（window.history）。
+history API
+back()back()函数用于移动浏览历史到前一条URL，调用back()函数和点击浏览器的“后退”按钮的效果相同window.history.back();
+forward()forward()函数用于移动浏览历史到下一条URL，调用for">
   
     <link rel="alternative" href="/atom.xml" title="var Person = {&quot;木圭&quot;}" type="application/atom+xml">
   
@@ -63,39 +73,67 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2015" class="archive-year">2015</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2015/07/27/meta/" class="archive-article-date">
-  <time datetime="2015-07-27T07:34:44.000Z" itemprop="datePublished">Jul 27</time>
+        <section id="main"><article id="post-history" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2015/10/14/history/" class="article-date">
+  <time datetime="2015-10-14T08:39:09.000Z" itemprop="datePublished">2015-10-14</time>
 </a>
-      
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2015/07/27/meta/">meta</a>
+    <h1 class="article-title" itemprop="name">
+      history
     </h1>
   
 
-    </header>
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们可以通过history对象来访问浏览器的浏览历史，这个对象是一个JavaScript全局对象（window.history）。</p>
+<h2 id="history_API">history API</h2><ul>
+<li>back()<br>back()函数用于移动浏览历史到前一条URL，调用back()函数和点击浏览器的“后退”按钮的效果相同<br>window.history.back();</li>
+<li>forward()<br>forward()函数用于移动浏览历史到下一条URL，调用forward()函数和点击浏览器的“前进”按钮的效果相同<br>window.history.forward();</li>
+<li>go(index)<br>go(index)函数会根据参数index的值来向前或向后移动浏览历史</li>
+<li>pushState(stateObject, title, url)<br>pushState(stateObject, title, url)函数会在浏览历史栈中压入一条新的URL</li>
+<li>replaceState(stateObject, title, url)<br>replaceState(stateObject, title, url)函数与pushState()函数类似，但是它会将历史栈中的当前元素替换为一个新的URL</li>
+</ul>
+<h2 id="History_Change事件">History Change事件</h2><p>HTML5 history API允许我们监听一个页面浏览历史的改变。HTML5 history API的安全机制在这里同样有效，所以我们不能够监听到不同域名下的页面的改变历史。</p>
+<p>要监听浏览器浏览历史的改变，可以使用window对象的onpopstate()事件监听。</p>
+<pre><code><span class="built_in">window</span>.onpopstate = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>{
+    <span class="built_in">console</span>.log(<span class="string">"history changed to: "</span> + <span class="built_in">document</span>.location.href);
+}
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://guihua.github.io/2015/10/14/history/" data-id="cifrk7fo10000s9662ti32ouf" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li></ul>
+
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/07/29/retina/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">retina下背景图片实现</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
+
 </section>
         
           <aside id="sidebar">
