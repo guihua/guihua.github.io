@@ -79,7 +79,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/15/file/">file</a>
+      <a class="article-title" href="/2015/10/15/file/">HTML5 File</a>
     </h1>
   
 
@@ -88,18 +88,149 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>HTML5 File API允许页面使用Javascript来调用和处理本地文件系统的文件。</p>
-<h2 id="HTML5_File_API的核心对象">HTML5 File API的核心对象</h2><p>HTML5 File API包含以下的核心对象：</p>
+<h2 id="核心对象">核心对象</h2><p>HTML5 File API包含以下的核心对象：</p>
 <ul>
 <li>FileList<br>FileList对象代表本地文件系统中的一组文件</li>
 <li>File<br>File对象代表本地文件系统中的一个文件</li>
 <li>Blob<br>Blob对象代表一个二进制大型对象（BLOB），BLOB是本地文件系统中的单个文件的数据</li>
 <li>FileReader</li>
 </ul>
+<h3 id="文件选择">文件选择</h3><p>选择一个文件</p>
+<pre><code>&lt;input <span class="class"><span class="keyword">type</span></span>=<span class="string">"file"</span> onchange=<span class="string">"readFiles(event)"</span>&gt;
+</code></pre><p>选择多个文件时，在&lt;input&gt;元素中添加一个multiple属性</p>
+<pre><code>&lt;input <span class="class"><span class="keyword">type</span></span>=<span class="string">"file"</span> onchange=<span class="string">"readFiles(event)"</span> multiple&gt;
+</code></pre><h3 id="通过拖放选择文件">通过拖放选择文件</h3><p>我们可以将HTML5 file API和HTML5元素拖放相结合来选择文件。这种选择文件的方式需要实现用户从本地电脑的文件系统中（在浏览器之外）拖拽一个文件到浏览器的HTML页面指定的放置区域。HTML页面能通过javascript来检测是否有文件被放置在指定的区域。</p>
+<p>下面的代码是如何设置一个放置区域HTML元素，使它能够检测到是否有文件放置到它上面。</p>
+<pre><code><span class="comment">&lt;!--html--&gt;</span>
+<span class="tag">&lt;<span class="title">div</span> <span class="attribute">id</span>=<span class="value">"fileDropZone"</span>&gt;</span>
+    请拖拽文件到这里
+<span class="tag">&lt;/<span class="title">div</span>&gt;</span>
+<span class="comment">&lt;!--js--&gt;</span>
+<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="openscad">
+    <span class="function"><span class="keyword">function</span> <span class="title">drop</span><span class="params">(event)</span> {</span>
+        evt.stopPropagation<span class="params">()</span>;
+        evt.preventDefault<span class="params">()</span>;
+
+        var fileList = event.dataTransfer.files;
+
+        <span class="comment">// 通过fileList接收文件</span>
+     }
+
+    <span class="function"><span class="keyword">function</span> <span class="title">dragOver</span><span class="params">(evt)</span> {</span>
+        evt.stopPropagation<span class="params">()</span>;
+        evt.preventDefault<span class="params">()</span>;
+        evt.dataTransfer.dropEffect = 'copy';
+    }
+
+    var dropZone = document.getElementById<span class="params">(<span class="string">"fileDropZone"</span>)</span>;
+
+    dropZone.addEventListener<span class="params">(<span class="string">"dragover"</span>, dragOver, <span class="literal">false</span>)</span>;
+    dropZone.addEventListener<span class="params">(<span class="string">"drop"</span>    , drop    , <span class="literal">false</span>)</span>;
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
+</code></pre><p>dragOver()和drop()函数设置放置区域HTML元素的拖和放事件监听。</p>
+<h3 id="访问被选择的文件">访问被选择的文件</h3><p>当用户选择一个或多个文件之后，有两种方式访问这些被选择的文件。</p>
+<p>第一种访问被选择文件的方式是访问input元素的files属性。</p>
+<pre><code><span class="reserved">var</span> inputField = <span class="built_in">document</span>.getElementById(<span class="string">'theFileInput'</span>);
+
+<span class="reserved">var</span> selectedFiles = inputField.files;
+
+<span class="keyword">for</span>(<span class="reserved">var</span> i=<span class="number">0</span>; i&lt;selectedFiles.length; i++) {
+    <span class="reserved">var</span> file = selectedFiles[i);    
+}
+</code></pre><p>第二种访问被选择文件的方式是通过input元素的onchange事件监听，被选择的文件会作为event对象的参数被传入。</p>
+<pre><code><span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"file"</span> <span class="attribute">onchange</span>=<span class="value">"readFiles(event)"</span> <span class="attribute">multiple</span>&gt;</span>
+<span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="actionscript">
+<span class="function"><span class="keyword">function</span> <span class="title">readFiles</span><span class="params">(event)</span> </span>{
+    <span class="keyword">var</span> fileList = event.target.files;
+}
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span> 
+</code></pre><p>event.target.files对象是一个FileList对象。它包含一组被选择的文件（File对象）。</p>
+<pre><code><span class="tag">&lt;<span class="title">script</span>&gt;</span><span class="javascript">
+<span class="function"><span class="keyword">function</span> <span class="title">readFiles</span>(<span class="params">event</span>) </span>{
+    <span class="keyword">var</span> fileList = event.target.files;
+
+    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>; i &lt; fileList.length; i++ ) {
+        <span class="keyword">var</span> file = fileList[i];     <span class="comment">// a File object</span>
+        <span class="built_in">console</span>.log(<span class="string">"i: "</span> + i + <span class="string">" - "</span> + file.name);
+    }
+}
+</span><span class="tag">&lt;/<span class="title">script</span>&gt;</span> 
+</code></pre><h2 id="通过FileReader来加载文件">通过FileReader来加载文件</h2><p>FileReader对象有下面的一些方法可以用于读取文件：</p>
+<ul>
+<li>readAsText()</li>
+<li>readAsDataUrl()</li>
+<li>readAsArrayBuffer()</li>
+</ul>
+<p>上面的方法都使用一个File对象或Blob对象作为参数。</p>
+<p>Blob对象代表部分或整个文件，可以从File对象中创建一个Blob对象。</p>
+<pre><code><span class="variable"><span class="keyword">var</span> theFile</span> = fileList[<span class="number">0</span>]; <span class="comment">// 从FileList获取一个File对象</span>
+
+<span class="variable"><span class="keyword">var</span> from</span> = <span class="number">3</span>;
+<span class="variable"><span class="keyword">var</span> to</span>   = <span class="number">9</span>;
+<span class="variable"><span class="keyword">var</span> blob</span> = theFile.slice(from, to);   <span class="comment">// 创建Blob对象  </span>
+</code></pre><h3 id="创建一个FileReader">创建一个FileReader</h3><p>要使用FileReader你先要创建FileReader对象。</p>
+<pre><code><span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();
+</code></pre><h3 id="将一个文件作为文本来加载">将一个文件作为文本来加载</h3><pre><code><span class="function"><span class="keyword">function</span> <span class="title">readFiles</span><span class="params">(event)</span> {</span>
+    var fileList = event.target.files;
+
+    <span class="keyword">for</span><span class="params">(var i=<span class="number">0</span>; i &lt; fileList.length; i++ )</span> {
+        loadAsText<span class="params">(fileList[i])</span>;
+    }
+}
+
+<span class="function"><span class="keyword">function</span> <span class="title">loadAsText</span><span class="params">(theFile)</span> {</span>
+    var reader = new FileReader<span class="params">()</span>;
+
+    reader.onload = <span class="function"><span class="keyword">function</span><span class="params">(loadedEvent)</span> {</span>
+        <span class="comment">// 返回包含被加载的文件</span>
+        console.<span class="built_in">log</span><span class="params">(loadedEvent.target.result)</span>;
+    }
+    reader.readAsText<span class="params">(theFile)</span>;
+}
+</code></pre><p>文件在loadAsText()函数中被加载。</p>
+<h3 id="通过Data_URL来加载文件">通过Data URL来加载文件</h3><pre><code><span class="function"><span class="keyword">function</span> <span class="title">loadAsUrl</span>(<span class="params">theFile</span>) </span>{
+    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();
+
+    reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">loadedEvent</span>) </span>{
+        <span class="keyword">var</span> image = <span class="built_in">document</span>.getElementById(<span class="string">"theImage"</span>);
+        image.setAttribute(<span class="string">"src"</span>, loadedEvent.target.result);
+    }
+
+    reader.readAsDataURL(theFile);
+}
+</code></pre><p>预览上传的图片。</p>
+<h3 id="通过ArrayBuffer来加载文件">通过ArrayBuffer来加载文件</h3><p>FileReader对象的readAsArrayBuffer()函数可以用于作为ArrayBuffer来读取文件数据。</p>
+<pre><code><span class="function"><span class="keyword">function</span> <span class="title">loadAsUrl</span>(<span class="params">theFile</span>) </span>{
+    <span class="keyword">var</span> reader = <span class="keyword">new</span> FileReader();
+
+    reader.onload = <span class="function"><span class="keyword">function</span>(<span class="params">loadedEvent</span>) </span>{
+        <span class="keyword">var</span> arrayBuffer =  loadedEvent.target.result;
+        <span class="keyword">var</span> dataView = <span class="keyword">new</span> <span class="built_in">DataView</span>(arrayBuffer, <span class="number">0</span>, arrayBuffer.byteLength);
+
+        <span class="keyword">var</span> byte = dataView.getUint8(<span class="number">0</span>);   <span class="comment">//获取ArrayBuffer的第一个字节</span>
+
+        <span class="comment">//... 处理余下的dataView ...</span>
+    }
+
+    reader.readAsArrayBuffer(theFile);
+}
+</code></pre><h3 id="跟踪文件加载的进程">跟踪文件加载的进程</h3><pre><code>var reader = new FileReader<span class="params">()</span>;
+
+reader.onprogress = <span class="function"><span class="keyword">function</span><span class="params">(progressEvent)</span> {</span>
+
+    <span class="keyword">if</span><span class="params">(progressEvent.lengthComputable)</span> {
+        var percentLoaded = Math.<span class="built_in">round</span><span class="params">( <span class="params">(
+                progressEvent.loaded * <span class="number">100</span>)</span> / progressEvent.total )</span>;
+    }
+    console.<span class="built_in">log</span><span class="params">(<span class="string">"total: "</span> + progressEvent.total + <span class="string">", loaded: "</span>
+              + progressEvent.loaded + <span class="string">"("</span> + percentLoaded + <span class="string">"%)"</span>)</span>;
+}
+</code></pre><p>传入到onprogress事件中的progressEvent参数包含一个布尔值的属性lengthComputable。如果这个属性的值为true，你就可以计算文件已经被加载了多少。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://guihua.github.io/2015/10/15/file/" data-id="cifrkhunp0000uj66m3jons1l" class="article-share-link">Share</a>
+      <a data-url="http://guihua.github.io/2015/10/15/file/" data-id="cifrn1avk00006g66ke3aqcva" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/file/">file</a></li></ul>
@@ -150,7 +281,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://guihua.github.io/2015/10/14/history/" data-id="cifrkhuok0009uj661nea8al2" class="article-share-link">Share</a>
+      <a data-url="http://guihua.github.io/2015/10/14/history/" data-id="cifrn1aww00096g66isvzpjui" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html5/">html5</a></li></ul>
@@ -241,7 +372,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://guihua.github.io/2015/07/29/retina/" data-id="cifrkhuo80003uj66ha8gp9l8" class="article-share-link">Share</a>
+      <a data-url="http://guihua.github.io/2015/07/29/retina/" data-id="cifrn1awd00036g66vbe68sx5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CSS/">CSS</a></li></ul>
@@ -339,7 +470,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://guihua.github.io/2015/07/27/meta/" data-id="cifrkhuoi0006uj66mvn3g5t4" class="article-share-link">Share</a>
+      <a data-url="http://guihua.github.io/2015/07/27/meta/" data-id="cifrn1awt00066g665d4gj5nc" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/html/">html</a></li></ul>
@@ -392,7 +523,7 @@
       <ul>
         
           <li>
-            <a href="/2015/10/15/file/">file</a>
+            <a href="/2015/10/15/file/">HTML5 File</a>
           </li>
         
           <li>
